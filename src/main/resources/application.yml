@@ -1,0 +1,12 @@
+server:
+  port: 8282
+# 기존 application.properties 에서는 다음과 같이 사용했음.
+# server.port = 8282
+# 하지만 yml 파일 에서는 spring.datasource.... 등과 같은 중복을 없앨 수 있고 쉽게 사용 가능하므로 yml 파일로 변경함
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
+    username: ldu
+    password: ldu1234
