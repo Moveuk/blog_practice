@@ -1,13 +1,43 @@
 server:
-  port: 8282
+  port: 8282 # 사용 port
+  servlet:
+    context-path: /blog # 도메인 주소 이후 프로젝트 진입 패스
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 # 기존 application.properties 에서는 다음과 같이 사용했음.
 # server.port = 8282
 # 하지만 yml 파일 에서는 spring.datasource.... 등과 같은 중복을 없앨 수 있고 쉽게 사용 가능하므로 yml 파일로 변경함
 
 spring:
+  mvc:
+    view: 
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+# 파일 리턴 기본 경로 : src/main/resources/static - 정적 파일 저장소(브라우저가 인식할 수 있는 파일들)
+# 리턴명 : /home.html
+# 풀경로 : src/main/resources/static/home.html
+      
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
     username: ldu
     password: ldu1234
+    
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      use-new-id-generator-mappings: false
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
     

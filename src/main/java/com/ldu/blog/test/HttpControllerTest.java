@@ -15,9 +15,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class HttpControllerTest {
 	// 접근 uri : http://localhost:8282/http/~~~
 	
+	private static final String TAG = "HttpControllerTest : ";
+
+	@GetMapping("/http/lombok")
+	public String lombokTest() {
+		// lombok 어노테이션을 달아서 자동완성에 보임
+		
+		// @AllArgsConstructor
+		Member m = Member.builder().username("testname").password("1234").email("testemail").build();
+		System.out.println(TAG+"getter : "+m.getId());
+		m.setId(5000);
+		System.out.println(TAG+"setter : "+m.getId());
+		// @NoArgsConstructor
+		
+		return "lombok test 완료";
+	}
+	
 	@GetMapping("/http/get")
-	public String getTest(Member m) {
-//	public String getTest(@RequestParam int id, @RequestParam String username) {
+	public String getTest(Member m) { // (@RequestParam int id, @RequestParam String username) 
+		
 		return "get 요청 : "+m.getId()+", "+ m.getUsername()+", "+ m.getPassword()+", "+ m.getEmail();
 	}
 
