@@ -1,22 +1,20 @@
 package com.ldu.blog.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Entity
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Entity
 public class User {
 	
 	@Id // pk 설정
