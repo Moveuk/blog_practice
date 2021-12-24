@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ldu.blog.model.RoleType;
 import com.ldu.blog.model.User;
 import com.ldu.blog.repository.UserRepository;
 
@@ -21,6 +22,8 @@ public class DummyContollerTest {
 		System.out.println("password : " + user.getPassword());
 		System.out.println("email : " + user.getEmail());
 		
+		user.setRole(RoleType.USER); // RoleType 중에 User를 선택하여 넣어줌.
+		System.out.println("role : " + user.getRole());
 		userRepository.save(user);
 		return "회원가입이 완료되었습니다.";
 	}

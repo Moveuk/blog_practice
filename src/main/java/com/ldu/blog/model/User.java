@@ -1,22 +1,28 @@
 package com.ldu.blog.model;
 
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-
-import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@DynamicInsert // insert시 null인 필드 제외
+// @DynamicInsert  // 계속 이런 어노테이션을 붙이다보면 너무 많이 늘어나게됨. -insert시 null인 필드 제외
 public class User {
 	
 	@Id // pk 설정
@@ -34,8 +40,10 @@ public class User {
 	@Column(nullable = false, length = 50)
 	private String email;
 	
-	@ColumnDefault("'user'") // user 디폴트 값으로 주며 String임을 알려주기 위하여 '' 사용
-	private String role; // Enum을 쓰는게 좋음. (Enum을 쓰면 도메인(사용가능한 범위)을 만들어 줄수 있음. ex) admin, user, manager
+	//@ColumnDefault("'user'") // user 디폴트 값으로 주며 String임을 알려주기 위하여 '' 사용
+	// DB에는 RoleType이 없으므로 String 객체임을 알려줘야함.
+	@Enumerated(EnumType.STRING)
+	private RoleType role; // Enum을 쓰는게 좋음. (Enum을 쓰면 도메인(사용가능한 범위)을 만들어 줄수 있음. ex) admin, user, manager
 	
 	@CreationTimestamp // 시간이 자동 입력
 	private Timestamp createDate;
