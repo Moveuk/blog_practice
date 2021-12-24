@@ -32,9 +32,12 @@ public class DummyContollerTest {
 
 	// http://localhost:8282/blog/dummy/user
 	@GetMapping("/dummy/user")
-	public Page<User> pageList(
+	public List<User> pageList(
 			@PageableDefault(size = 2, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-		Page<User> users = userRepository.findAll(pageable);
+		Page<User> pagingUser = userRepository.findAll(pageable);
+		
+		// Page 객체에 들어있는 isLast 와 같은 기능들을 사용하여 분기를 만들 수 도 있다.
+		List<User> users = pagingUser.getContent();
 		return users;
 	}
 
