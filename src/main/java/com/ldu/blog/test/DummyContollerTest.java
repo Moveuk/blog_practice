@@ -8,21 +8,45 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ldu.blog.model.RoleType;
 import com.ldu.blog.model.User;
 import com.ldu.blog.repository.UserRepository;
 
-
 @RestController
 public class DummyContollerTest {
 
 	@Autowired // 의존성 주입(DI)
 	private UserRepository userRepository;
+
+	// 1. save함수는 id 파라미터가 없으면 insert를 해주고
+	// 2. save함수는 id 파라미터가 있어서 검색이 가능하고 id에 대한 정보들이 있을 때 update 해주고
+	// 3. save함수는 id 파라미터가 있으서 검색이 가능하고 id에 대한 정보들이 없을 때는 insert를 해준다.
+	// email, password
+	@Transactional
+	@PutMapping("/dummy/user/{id}")
+	public User updateUser(@PathVariable int id, @RequestBody User requestUser) {
+		System.out.println("id : " + id);
+		System.out.println("password : " + requestUser.getPassword());
+		System.out.println("email : " + requestUser.getEmail());
+
+		User user = userRepository.findById(id).orElseThrow(()->{
+			return new IllegalArgumentException("수정에 실패하였습니다..");
+		});
+		user.setPassword(requestUser.getPassword());
+		user.setEmail(requestUser.getEmail());
+		
+		requestUser.setId(id);
+		// userRepository.save(requestUser); // @Transactional 어노테이션에 의해서 save 함수가 없어도 자동 update가 된다.
+		return null;
+	}
 
 	// http://localhost:8282/blog/dummy/users
 	@GetMapping("/dummy/users")
@@ -35,7 +59,7 @@ public class DummyContollerTest {
 	public List<User> pageList(
 			@PageableDefault(size = 2, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<User> pagingUser = userRepository.findAll(pageable);
-		
+
 		// Page 객체에 들어있는 isLast 와 같은 기능들을 사용하여 분기를 만들 수 도 있다.
 		List<User> users = pagingUser.getContent();
 		return users;
