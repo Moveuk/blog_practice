@@ -1,8 +1,13 @@
 package com.ldu.blog.test;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,11 +17,26 @@ import com.ldu.blog.model.RoleType;
 import com.ldu.blog.model.User;
 import com.ldu.blog.repository.UserRepository;
 
+
 @RestController
 public class DummyContollerTest {
 
 	@Autowired // 의존성 주입(DI)
 	private UserRepository userRepository;
+
+	// http://localhost:8282/blog/dummy/users
+	@GetMapping("/dummy/users")
+	public List<User> list() {
+		return userRepository.findAll();
+	}
+
+	// http://localhost:8282/blog/dummy/user
+	@GetMapping("/dummy/user")
+	public Page<User> pageList(
+			@PageableDefault(size = 2, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+		Page<User> users = userRepository.findAll(pageable);
+		return users;
+	}
 
 	// {id} 주소로 파라미터를 전달 받을 수 있음.
 	// http://localhost:8282/blog/dummy/user/3
@@ -46,12 +66,12 @@ public class DummyContollerTest {
 		// 3. null 가능성 있을 경우 orElseThrow 메소드를 사용하여 Supplier에 exception throw
 		// 4. 람다식 활용
 		/*
-		 User user = userRepository.findById(id).orElseThrow(()->{
-			return new IllegalArgumentException("해당 유저는 없습니다. id : " + id);
-		});
+		 * User user = userRepository.findById(id).orElseThrow(()->{ return new
+		 * IllegalArgumentException("해당 유저는 없습니다. id : " + id); });
 		 */
-		
-		// return은 user 객체를 보내지만 MessageConverter가 Jackson 라이브러리를 사용해서 알아서 JSON 오브젝트로 변환해줌.
+
+		// return은 user 객체를 보내지만 MessageConverter가 Jackson 라이브러리를 사용해서 알아서 JSON 오브젝트로
+		// 변환해줌.
 		return user;
 	}
 
