@@ -1,7 +1,7 @@
 server:
   port: 8282 # 사용 port
   servlet:
-    context-path: /blog # 도메인 주소 이후 프로젝트 진입 패스
+    context-path: / # 도메인 주소 이후 프로젝트 진입 패스
     encoding:
       charset: UTF-8
       enabled: true

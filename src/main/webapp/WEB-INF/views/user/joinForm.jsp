@@ -3,7 +3,7 @@
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container">
-	<form action="/blog/user/join" method="post">
+	<form>
 
 		<div class="form-group">
 			<label for="username">Username :</label>
@@ -24,5 +24,5 @@
 	<button id="btn-save" class="btn btn-primary">회원가입</button>
 </div>
 
-<script type="text/javascript" src="/blog/js/user.js"></script>
+<script type="text/javascript" src="/js/user.js"></script>
 <%@ include file="../layout/footer.jsp"%>

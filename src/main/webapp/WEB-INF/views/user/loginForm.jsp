@@ -25,5 +25,5 @@
 	<button id="btn-login" class="btn btn-primary">로그인</button>
 </div>
 
-<script type="text/javascript" src="/blog/js/user.js"></script>
+<script type="text/javascript" src="/js/user.js"></script>
 <%@ include file="../layout/footer.jsp"%>
