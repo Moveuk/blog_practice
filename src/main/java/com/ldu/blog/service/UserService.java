@@ -1,6 +1,7 @@
 package com.ldu.blog.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +15,20 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired	// SecurityConfig.java 에서 Bean 설정(IoC) 해두었으므로 DI 가능.
+	private BCryptPasswordEncoder encoder;
+	
 	@Transactional
 	public int 회원가입(User user) {
 		try {
+			// 비밀번호 해쉬화
+			String rawPassword = user.getPassword();
+			String encPassword = encoder.encode(rawPassword);	// 해쉬값
+			user.setPassword(encPassword);
+			
+			// 해쉬화된 비밀번호를 가진 User 객체 저장.
 			userRepository.save(user);
+			
 			return 1;
 		} catch (Exception e) {
 			e.printStackTrace();
