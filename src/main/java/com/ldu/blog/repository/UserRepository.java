@@ -1,5 +1,7 @@
 package com.ldu.blog.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ldu.blog.model.User;
@@ -7,6 +9,8 @@ import com.ldu.blog.model.User;
 // DAO
 // JpaRepository 상속으로 자동 bean 등록 되므로 @Repository 생략가능
 public interface UserRepository extends JpaRepository<User, Integer> {
+	// SELECT * FROM user WHERE username = 1?;
+	Optional<User> findByUsername(String username);
 }
 
 
