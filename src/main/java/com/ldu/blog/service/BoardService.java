@@ -1,7 +1,6 @@
 package com.ldu.blog.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,16 +18,10 @@ public class BoardService {
 
 	@Transactional
 	public int 글쓰기(Board board, User user) {
-		try {
-			board.setCount(0);
-			board.setUser(user);
-			boardRepository.save(board); // title, content
-			return 1;
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("UserService : 회원가입()" + e.getMessage());
-		}
-		return -1;
+		board.setCount(0);
+		board.setUser(user);
+		boardRepository.save(board); // title, content
+		return 1;
 	}
 
 	@Transactional(readOnly = true)
@@ -45,11 +38,18 @@ public class BoardService {
 
 	@Transactional
 	public int 글삭제하기(int id) {
-		try {
-			boardRepository.deleteById(id);
-		} catch (EmptyResultDataAccessException e) {
-			return -1;
-		}
+		boardRepository.deleteById(id);
+		return 1;
+	}
+
+	@Transactional
+	public int 글수정하기(int id, Board requestBoard) {
+		Board board = boardRepository.findById(id).orElseThrow(() -> {
+			return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.");
+		}); // 영속성 컨텍스트에 영속화 완료
+		board.setTitle(requestBoard.getTitle());
+		board.setContent(requestBoard.getContent());
+		// 서비스 종료시 트랜잭션 종료되면서 `더티체킹`이 일어나면서 db에 flush 함.
 		return 1;
 	}
 }
