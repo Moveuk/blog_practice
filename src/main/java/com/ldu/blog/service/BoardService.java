@@ -1,5 +1,7 @@
 package com.ldu.blog.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,5 +28,9 @@ public class BoardService {
 			System.out.println("UserService : 회원가입()" + e.getMessage());
 		}
 		return -1;
+	}
+
+	public List<Board> 글목록() {
+		return boardRepository.findAll();
 	}
 }
