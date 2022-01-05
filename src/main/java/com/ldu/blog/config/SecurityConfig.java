@@ -3,6 +3,7 @@ package com.ldu.blog.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,6 +28,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean // IoC 등록 : return 값을 스프링이 관리하도록 만듬. - 해쉬화 하는 함수를 리턴함.
 	public BCryptPasswordEncoder encodePWD() {
 		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
 	}
 
 	// 시큐리티가 대신 로그인시 password를 가로챌때 해쉬할 방식을 정해줌.

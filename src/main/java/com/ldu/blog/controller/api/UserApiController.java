@@ -2,6 +2,10 @@ package com.ldu.blog.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,10 +20,10 @@ import com.ldu.blog.service.UserService;
 public class UserApiController {
 	
 	@Autowired
-	private UserService userService;
+	UserService userService;
 	
-//	@Autowired
-//	private HttpSession session;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 	
 	@PostMapping("/auth/joinProc")
 	public ResponseDto<Integer> save(@RequestBody User user) {
@@ -28,22 +32,18 @@ public class UserApiController {
 		user.setRole(RoleType.USER);	// role 은 없으므로 수동으로 넣어줌
 		int result = userService.회원가입(user);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), result); // 1 대신 dto에서 받아와서 넣음.
-		// Java 객체를 messageConverter가 JSON으로 바꿔서 송신
-		// user.js ajax 코드에서 응답을 위한 dataType을 JSON으로 적어 줬으므로 확인이됨.
-		// dataType 적어주지 않더라도 json을 오브젝트로 자동 파싱해줌.
-		
-		/*
-		 * ResponseDto 필드 값
-		 int status; - http 통신 정상 성공 : HttpStatus.OK - 200
-		  T data;
-		 */
 	}
 
 	@PutMapping("/user")
 	public ResponseDto<Integer> update(@RequestBody User user) {
 		int result = userService.회원수정(user);
+		// db 값 변경됨. but 클라이언트 측 세션값은 변경되지 않음.
+		
+		// 세션 등록
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication); // 시큐리티 컨텍스트에 authentication 등록
+		
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), result);
 	}
 	
-	// 전통적인 로그인 방식 제거.
 }
