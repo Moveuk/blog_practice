@@ -37,5 +37,19 @@ public class UserService {
 		return -1;
 	}
 
-	// 로그인 서비스도 삭제.
+	@Transactional
+	public int 회원수정(User requestUser) {
+		// 영속화
+		User user = userRepository.findById(requestUser.getId()).orElseThrow(()->{
+			return new IllegalArgumentException("회원 찾기 실패 : 아이디를 찾을 수 없습니다.");
+		});
+	
+		String rawPassword = requestUser.getPassword();
+		String encPassword = encoder.encode(rawPassword);	// 해쉬값
+		
+		user.setPassword(encPassword);
+		user.setEmail(requestUser.getEmail());
+		return 1;
+	}
+
 }

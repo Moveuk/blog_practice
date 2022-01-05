@@ -3,6 +3,7 @@ package com.ldu.blog.controller.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,5 +39,11 @@ public class UserApiController {
 		 */
 	}
 
+	@PutMapping("/user")
+	public ResponseDto<Integer> update(@RequestBody User user) {
+		int result = userService.회원수정(user);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), result);
+	}
+	
 	// 전통적인 로그인 방식 제거.
 }

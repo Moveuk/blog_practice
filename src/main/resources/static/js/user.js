@@ -3,6 +3,9 @@ let index = {
 		$("#btn-save").on("click", ()=>{
 			this.save();
 		}); // on (이벤트, 활성화시 로직)
+		$("#btn-update").on("click", ()=>{
+			this.update();
+		}); // on (이벤트, 활성화시 로직)
 	},
 	
 	save: function(){
@@ -31,6 +34,27 @@ let index = {
 			location.href = "/";
 		}).fail(function(error){
 			// 실패시  에러 응답이 오게됨 그 응답을 error로 명명 후 alert 창에 명시
+			alert(JSON.stringify(error));
+		});
+	},
+		
+	update: function(){
+		//alert('user의 save함수 호출됨');
+		let data = {
+			id: $("#id").val(),
+			password: $("#password").val(),
+			email: $("#email").val()
+		};		
+		$.ajax({ 
+			type: "PUT",
+			url: "/user",
+			data: JSON.stringify(data), 
+			contentType: "application/json; charset=utf-8", 
+			dataType: "json"
+		}).done(function(resp){
+			alert("회원 정보 수정이 완료되었습니다.");
+			location.href = "/";
+		}).fail(function(error){
 			alert(JSON.stringify(error));
 		});
 	}
