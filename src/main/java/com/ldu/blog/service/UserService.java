@@ -1,12 +1,10 @@
 package com.ldu.blog.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ldu.blog.config.auth.PrincipalDetail;
 import com.ldu.blog.model.User;
 import com.ldu.blog.repository.UserRepository;
 
@@ -54,6 +52,15 @@ public class UserService {
 		
 		// 서비스에서 세션 정리 불가능.. 트랜잭션이 종료되지 않아서 db에 아직 비밀번호가 바뀌지 않음.
 		return 1;
+	}
+
+	@Transactional(readOnly = true)
+	public User 회원찾기(String username) {
+		// 없으면 null 있으면 객체 리턴
+		User user = userRepository.findByUsername(username).orElseGet(()->{
+			return new User();
+		});
+		return user;
 	}
 
 }

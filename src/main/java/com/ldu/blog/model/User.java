@@ -31,7 +31,7 @@ public class User {
 	// IDENTITY -> 시퀀스 경우 오라클은 시퀀스, mysql은 auto_increment를 사용
 	private int id; // 시퀀스, auto_increment
 	
-	@Column(nullable = false, length = 30, unique = true)
+	@Column(nullable = false, length = 100, unique = true)
 	private String username; // 아이디
 	
 	@Column(nullable = false, length = 100) // 123456 => 해쉬 (비밀번호 암호화를 위한 length 크기 설정)

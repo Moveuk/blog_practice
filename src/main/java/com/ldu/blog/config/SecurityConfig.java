@@ -18,7 +18,7 @@ import com.ldu.blog.config.auth.PrincipalDetailService;
 
 // 빈 등록 : 스프링 컨테이너에서 객체를 관리할 수 있게 설정
 @Configuration // 빈등록 (IoC 관리)
-@EnableWebSecurity(debug = true) // 시큐리티 필터 추가(Default로 필터됨) -> 필터에 대한 설정을 이 클래스에서 정리함.
+@EnableWebSecurity// (debug = true) // 시큐리티 필터 추가(Default로 필터됨) -> 필터에 대한 설정을 이 클래스에서 정리함.
 @EnableGlobalMethodSecurity(prePostEnabled = true) // 특정 주소로 접근을 하면 권한 및 인증을 미리 체크하겠다는 뜻.
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 

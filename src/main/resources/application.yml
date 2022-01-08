@@ -41,3 +41,6 @@ spring:
     serialization:
       fail-on-empty-beans: false
     
+# oAuth로 회원가입하는 회원들의 패스워드(서비스때는 절대 노출되면 안됨)
+oAuth:
+  key: ldu1234
