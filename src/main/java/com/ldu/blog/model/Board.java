@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -51,6 +52,7 @@ public class Board {
     @OneToMany(mappedBy = "board", fetch = FetchType.EAGER) // 여기서 board는 Reply VO에 field로 사용된 변수명이다.
     // OneToMany의 기본 fetch 전략은 LAZY이다.
     @JsonIgnoreProperties({"board"})
+    @OrderBy("id desc") // javax.persistence.OrderBy -  내림차순으로 바꾸는 방법
     private List<Reply> replys; // JPA가 해당 게시글에 연결된 댓글을 모두 가져오면 여러개이므로 컬렉션으로 받아야함.
     
     @CreationTimestamp
