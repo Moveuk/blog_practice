@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ldu.blog.model.RoleType;
 import com.ldu.blog.model.User;
 import com.ldu.blog.repository.UserRepository;
 
@@ -25,6 +26,7 @@ public class UserService {
 			String rawPassword = user.getPassword();
 			String encPassword = encoder.encode(rawPassword);	// 해쉬값
 			user.setPassword(encPassword);
+			user.setRole(RoleType.USER);
 			
 			// 해쉬화된 비밀번호를 가진 User 객체 저장.
 			userRepository.save(user);
@@ -44,13 +46,15 @@ public class UserService {
 			return new IllegalArgumentException("회원 찾기 실패 : 아이디를 찾을 수 없습니다.");
 		});
 	
+		// oAuth 사용자는 수정 분기 못함
+		if(user.getOauth() == null || user.getOauth().equals("")) {
 		String rawPassword = requestUser.getPassword();
 		String encPassword = encoder.encode(rawPassword);	// 해쉬값
-		
 		user.setPassword(encPassword);
 		user.setEmail(requestUser.getEmail());
-		
-		// 서비스에서 세션 정리 불가능.. 트랜잭션이 종료되지 않아서 db에 아직 비밀번호가 바뀌지 않음.
+		}
+	
+		// 서비스에서 세션 정리 불가능. 트랜잭션이 종료되지 않아서 db에 아직 비밀번호가 바뀌지 않음.
 		return 1;
 	}
 

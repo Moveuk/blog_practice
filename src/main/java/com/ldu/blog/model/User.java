@@ -45,6 +45,9 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private RoleType role; // Enum을 쓰는게 좋음. (Enum을 쓰면 도메인(사용가능한 범위)을 만들어 줄수 있음. ex) admin, user, manager
 	
+	// oAuth 로그인 사용자인지 확인용
+	private String oauth; // kakao, google, null
+	
 	@CreationTimestamp // 시간이 자동 입력
 	private Timestamp createDate;
 }
