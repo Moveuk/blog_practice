@@ -8,11 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ldu.blog.dto.ReplySaveRequestDto;
 import com.ldu.blog.model.Board;
-import com.ldu.blog.model.Reply;
 import com.ldu.blog.model.User;
 import com.ldu.blog.repository.BoardRepository;
 import com.ldu.blog.repository.ReplyRepository;
-import com.ldu.blog.repository.UserRepository;
 
 @Service
 public class BoardService {
@@ -22,9 +20,6 @@ public class BoardService {
 	
 	@Autowired 
 	private ReplyRepository replyRepository;
-	
-	@Autowired
-	private UserRepository userRepository;
 
 	@Transactional
 	public int 글쓰기(Board board, User user) {
@@ -65,19 +60,8 @@ public class BoardService {
 
 	@Transactional
 	public int 댓글쓰기(ReplySaveRequestDto reply) {
-		User user = userRepository.findById(reply.getUserId()).orElseThrow(() -> {
-			return new IllegalArgumentException("댓글 쓰기 실패 : 해당하는 User를 찾을 수 없습니다.");
-		});
-		Board board = boardRepository.findById(reply.getBoardId()).orElseThrow(() -> {
-			return new IllegalArgumentException("댓글 쓰기 실패 : 게시글 id를 찾을 수 없습니다.");
-		}); // 영속화
-		
-		Reply requestReply = new Reply();
-		requestReply.update(user, board, reply.getContent());
-		
-		replyRepository.save(requestReply);
-		
-		return 1;
+		int result = replyRepository.myReplySave(reply.getUserId(), reply.getBoardId(), reply.getContent());
+		return result;
 	}
 
 }
