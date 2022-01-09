@@ -13,29 +13,36 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ldu.blog.config.auth.PrincipalDetail;
 import com.ldu.blog.dto.ResponseDto;
 import com.ldu.blog.model.Board;
+import com.ldu.blog.model.Reply;
 import com.ldu.blog.service.BoardService;
 
 @RestController
 public class BoardApiController {
-	
+
 	@Autowired
 	private BoardService boardService;
-	
+
 	@PostMapping("/api/board")
 	public ResponseDto<Integer> save(@RequestBody Board board, @AuthenticationPrincipal PrincipalDetail principal) {
 		System.out.println("BoardApiController : save 호출됨");
-		
 		boardService.글쓰기(board, principal.getUser());
-		
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
-	
+
+	@PostMapping("/api/board/{boardId}/reply")
+	public ResponseDto<Integer> replySave(@PathVariable int boardId, @RequestBody Reply reply,
+			@AuthenticationPrincipal PrincipalDetail principal) {
+		System.out.println("BoardApiController : replySave 호출됨");
+		int result = boardService.댓글쓰기(principal.getUser(), boardId, reply);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), result);
+	}
+
 	@DeleteMapping("/api/board/{id}")
 	public ResponseDto<Integer> deleteById(@PathVariable int id) {
 		int result = boardService.글삭제하기(id);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), result);
 	}
-	
+
 	@PutMapping("/api/board/{id}")
 	public ResponseDto<Integer> update(@PathVariable int id, @RequestBody Board board) {
 		int result = boardService.글수정하기(id, board);

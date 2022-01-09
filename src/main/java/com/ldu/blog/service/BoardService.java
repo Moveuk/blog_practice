@@ -7,14 +7,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ldu.blog.model.Board;
+import com.ldu.blog.model.Reply;
 import com.ldu.blog.model.User;
 import com.ldu.blog.repository.BoardRepository;
+import com.ldu.blog.repository.ReplyRepository;
 
 @Service
 public class BoardService {
 
 	@Autowired
 	private BoardRepository boardRepository;
+	
+	@Autowired 
+	private ReplyRepository replyRepository;
 
 	@Transactional
 	public int 글쓰기(Board board, User user) {
@@ -50,6 +55,20 @@ public class BoardService {
 		board.setTitle(requestBoard.getTitle());
 		board.setContent(requestBoard.getContent());
 		// 서비스 종료시 트랜잭션 종료되면서 `더티체킹`이 일어나면서 db에 flush 함.
+		return 1;
+	}
+
+	@Transactional
+	public int 댓글쓰기(User user, int boardId, Reply requestReply) {
+		Board board = boardRepository.findById(boardId).orElseThrow(() -> {
+			return new IllegalArgumentException("댓글 쓰기 실패 : 게시글 id를 찾을 수 없습니다.");
+		}); // 영속화
+		
+		requestReply.setUser(user);
+		requestReply.setBoard(board);
+		
+		replyRepository.save(requestReply);
+		
 		return 1;
 	}
 }
