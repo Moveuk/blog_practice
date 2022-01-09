@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ldu.blog.config.auth.PrincipalDetail;
+import com.ldu.blog.dto.ReplySaveRequestDto;
 import com.ldu.blog.dto.ResponseDto;
 import com.ldu.blog.model.Board;
-import com.ldu.blog.model.Reply;
 import com.ldu.blog.service.BoardService;
 
 @RestController
@@ -29,11 +29,11 @@ public class BoardApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 
+	// 데이터 받을 때는 컨트롤러에서 dto를 만들어서 받는게 좋다.
 	@PostMapping("/api/board/{boardId}/reply")
-	public ResponseDto<Integer> replySave(@PathVariable int boardId, @RequestBody Reply reply,
-			@AuthenticationPrincipal PrincipalDetail principal) {
+	public ResponseDto<Integer> replySave(@RequestBody ReplySaveRequestDto reply) {
 		System.out.println("BoardApiController : replySave 호출됨");
-		int result = boardService.댓글쓰기(principal.getUser(), boardId, reply);
+		int result = boardService.댓글쓰기(reply);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), result);
 	}
 

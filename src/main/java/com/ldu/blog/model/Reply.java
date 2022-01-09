@@ -27,10 +27,10 @@ public class Reply {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id; // auto_increment
-	
+
 	@Column(nullable = false, length = 100)
 	private String content;
-	
+
 	@ManyToOne // Many(reply) to One(board)
 	@JoinColumn(name = "boardId")
 	private Board board;
@@ -38,7 +38,13 @@ public class Reply {
 	@ManyToOne // Many(reply) to One(user)
 	@JoinColumn(name = "userId")
 	private User user;
-	
+
 	@CreationTimestamp
 	private Timestamp createDate;
+
+	public void update(User user, Board board, String content) {
+		setUser(user);
+		setBoard(board);
+		setContent(content);
+	}
 }
