@@ -28,12 +28,16 @@ let index = {
 			contentType: "application/json; charset=utf-8", // 서버로 보내는 요청의 MIME Type 명시
 			dataType: "json" // 서버에서 오는 응답의 타입을 미리 정해줌(오는 데이터는 String으로 옴) => javascript object로 변경
 		}).done(function(resp){
-			// 성공시 
-			alert("회원가입이 완료되었습니다.");
-			//console.log(resp); // 응답 1로 했으므로 alert 창에 1이 뜸
-			location.href = "/";
+			if(resp.status === 500) {
+				// 실패시
+				alert("회원가입에 실패하였습니다.");
+			} else {
+				// 성공시 
+				alert("회원가입이 완료되었습니다.");
+				location.href = "/";
+			}
 		}).fail(function(error){
-			// 실패시  에러 응답이 오게됨 그 응답을 error로 명명 후 alert 창에 명시
+			// 요청 자체 실패시  에러 응답이 오게됨 그 응답을 error로 명명 후 alert 창에 명시
 			alert(JSON.stringify(error));
 		});
 	},
