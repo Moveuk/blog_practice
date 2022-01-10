@@ -1,6 +1,5 @@
 package com.ldu.blog.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -24,22 +23,20 @@ import com.ldu.blog.model.OAuthToken;
 import com.ldu.blog.model.User;
 import com.ldu.blog.service.UserService;
 
+import lombok.RequiredArgsConstructor;
+
 // 인증이 안된 사용자들이 출입할 수 있는 경로를 /auth/** 허용 - 인증이 없어도 이용 가능한 페이지를 구분.
 // 그냥 주소가 / 이면 index.jsp 이용
 // static 이하에 있는 /js/**, /css/**, /image/**
 
 @Controller
+@RequiredArgsConstructor
 public class UserController {
 
-	// application.yml 에서 정의해놓은 oAuth 용 키
-	@Value("${oAuth.key}")
-	private String oAuthKey;
-	
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private AuthenticationManager authenticationManager;
+	@Value("${oAuth.key}") // application.yml 에서 정의해놓은 oAuth 용 키
+	private final String oAuthKey;
+	private final UserService userService;
+	private final AuthenticationManager authenticationManager;
 
 	@GetMapping("/auth/joinForm")
 	public String joinForm() {

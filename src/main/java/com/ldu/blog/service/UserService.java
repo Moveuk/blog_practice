@@ -1,6 +1,5 @@
 package com.ldu.blog.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,15 +8,15 @@ import com.ldu.blog.model.RoleType;
 import com.ldu.blog.model.User;
 import com.ldu.blog.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 // 스프링이 컴포넌트 스캔을 통해서 Bean에 등록을 해줌. IoC를 해준다.
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired	// SecurityConfig.java 에서 Bean 설정(IoC) 해두었으므로 DI 가능.
-	private BCryptPasswordEncoder encoder;
+	private final UserRepository userRepository;
+	private final BCryptPasswordEncoder encoder; // SecurityConfig.java 에서 Bean 설정(IoC) 해두었으므로 DI 가능.
 	
 	@Transactional
 	public int 회원가입(User user) {

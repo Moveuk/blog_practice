@@ -1,6 +1,5 @@
 package com.ldu.blog.controller.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,14 +15,14 @@ import com.ldu.blog.model.RoleType;
 import com.ldu.blog.model.User;
 import com.ldu.blog.service.UserService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController // 웹과 앱을 겸용할 수 있음.
+@RequiredArgsConstructor
 public class UserApiController {
 	
-	@Autowired
-	UserService userService;
-	
-	@Autowired
-	private AuthenticationManager authenticationManager;
+	private final UserService userService;
+	private final AuthenticationManager authenticationManager;
 	
 	@PostMapping("/auth/joinProc")
 	public ResponseDto<Integer> save(@RequestBody User user) {

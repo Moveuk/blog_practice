@@ -1,6 +1,5 @@
 package com.ldu.blog.config.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -9,11 +8,13 @@ import org.springframework.stereotype.Service;
 import com.ldu.blog.model.User;
 import com.ldu.blog.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service // Bean 등록
+@RequiredArgsConstructor
 public class PrincipalDetailService implements UserDetailsService {
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	// 스프링이 로그인을 가로챌 때, username과 password 변수를 가로챔.
 	// password 부분 처리는 알아서 처리하고,

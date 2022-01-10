@@ -1,6 +1,5 @@
 package com.ldu.blog.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,14 +11,15 @@ import com.ldu.blog.model.User;
 import com.ldu.blog.repository.BoardRepository;
 import com.ldu.blog.repository.ReplyRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class BoardService {
 
-	@Autowired
-	private BoardRepository boardRepository;
+	private final BoardRepository boardRepository;
 	
-	@Autowired 
-	private ReplyRepository replyRepository;
+	private final ReplyRepository replyRepository;
 
 	@Transactional
 	public int 글쓰기(Board board, User user) {

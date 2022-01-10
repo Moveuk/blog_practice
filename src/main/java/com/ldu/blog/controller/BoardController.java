@@ -1,6 +1,5 @@
 package com.ldu.blog.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -11,11 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ldu.blog.service.BoardService;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class BoardController {
 
-	@Autowired
-	private BoardService boardService;
+	private final BoardService boardService;
 	
 	@GetMapping({"","/"}) // 배열로 두가지 매핑 가능.
 	public String index(Model model, @PageableDefault(size = 3, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {

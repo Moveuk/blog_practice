@@ -1,6 +1,5 @@
 package com.ldu.blog.controller.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,11 +15,13 @@ import com.ldu.blog.dto.ResponseDto;
 import com.ldu.blog.model.Board;
 import com.ldu.blog.service.BoardService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 public class BoardApiController {
 
-	@Autowired
-	private BoardService boardService;
+	private final BoardService boardService;
 
 	@PostMapping("/api/board")
 	public ResponseDto<Integer> save(@RequestBody Board board, @AuthenticationPrincipal PrincipalDetail principal) {
