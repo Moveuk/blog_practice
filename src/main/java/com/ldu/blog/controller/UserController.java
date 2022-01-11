@@ -34,7 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	@Value("${oAuth.key}") // application.yml 에서 정의해놓은 oAuth 용 키
-	private final String oAuthKey;
+	private String oAuthKey;
 	private final UserService userService;
 	private final AuthenticationManager authenticationManager;
 

@@ -64,4 +64,9 @@ public class BoardService {
 		return result;
 	}
 
+	public int 댓글삭제(int replyId) {
+		replyRepository.deleteById(replyId);
+		return 1;
+	}
+
 }

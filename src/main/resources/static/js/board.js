@@ -94,7 +94,24 @@ let index = {
 		}).fail(function(error){
 			alert(JSON.stringify(error));
 		});
-	}
+	},
+	
+		replyDelete: function(boardId, replyId){
+		if(confirm("선택하신 댓글을 삭제하시겠습니까?") == true) {
+		$.ajax({
+			type: "DELETE",
+			url: `/api/board/${boardId}/reply/${replyId}`, 
+			dataType: "json" 
+		}).done(function(resp){
+			alert("댓글이 삭제되었습니다.");
+			location.href = `/board/${boardId}`;
+		}).fail(function(error){
+			alert(JSON.stringify(error));
+		});
+		}
+	},
+	
+	
 }
 
 index.init();
