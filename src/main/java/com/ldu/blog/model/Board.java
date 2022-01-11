@@ -3,6 +3,7 @@ package com.ldu.blog.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -49,7 +50,7 @@ public class Board {
     private User user; // 글쓴이 - DB는 오브젝트를 저장할 수 없다. FK, 자바는 오브젝트를 저장할 수 있다.
     
     // mappedBy - 연관관계의 주인이 아니므로 DB에 컬럼을 만들지 않도록 해줌.
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER) // 여기서 board는 Reply VO에 field로 사용된 변수명이다.
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) // 여기서 board는 Reply VO에 field로 사용된 변수명이다.
     // OneToMany의 기본 fetch 전략은 LAZY이다.
     @JsonIgnoreProperties({"board"})
     @OrderBy("id desc") // javax.persistence.OrderBy -  내림차순으로 바꾸는 방법
