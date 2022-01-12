@@ -44,3 +44,12 @@ spring:
 # oAuth로 회원가입하는 회원들의 패스워드(서비스때는 절대 노출되면 안됨)
 oAuth:
   key: ldu1234
+  kakao:
+    requestToken:
+      grantType: authorization_code
+      clientId: 118f5ed022c828aef7f707a393e2b8b9
+      redirectUri: http://localhost:8282/auth/kakao/callback
+      uri: https://kauth.kakao.com/oauth/token
+    requestProfile:
+      uri: https://kapi.kakao.com/v2/user/me
+      
