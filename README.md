@@ -8,6 +8,8 @@
 
 - 새로운 기술 공부 용도
 
+- 스프링부트, 시큐리티 개념 정리
+
 ## 업데이트 로그
 
 1. [Log01](https://github.com/Moveuk/blog_practice/blob/main/updateLog/2021-12-21.md)
